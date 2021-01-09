@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const grid = document.querySelector('.grid')
     let squares = Array.from(document.querySelectorAll('.grid div'))
-    const socreDisplay = document.querySelector('%score')
+    const socreDisplay = document.querySelector('#score')
     const width = 10
 
     // Shapes
@@ -43,4 +43,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const theTetriminoes = [lTetrimino, ZTetrimino, tTetrimino, oTetrimino, iTetrimino]
 
+    let currentPosition = 4
+    let currentRotation = 0
+
+    // randomly select tetrimino
+    let random = Math.floor(Math.random() * theTetriminoes.length)
+    let current = theTetriminoes[random][currentRotation]
+
+    function draw() {
+        // draw current tetrimino
+        current.forEach(index => {
+            squares[currentPosition + index].classList.add('tetrimino')
+        })
+    }
+
+    function undraw() {
+        current.forEach(index => {
+            squares[currentPosition + index].classList.remove('tetrimino')
+        })
+    }
 })
