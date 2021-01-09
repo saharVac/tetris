@@ -62,4 +62,40 @@ document.addEventListener('DOMContentLoaded', () => {
             squares[currentPosition + index].classList.remove('tetrimino')
         })
     }
+
+    timerId = setInterval(moveDown, 1000)
+
+    function moveDown() {
+        undraw()
+        currentPosition += width
+        console.log("position", currentPosition)
+        draw()
+        // check if cant move
+        freeze()
+    }   
+
+    function freeze() {
+        if (current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
+            current.forEach(index => squares[currentPosition + index].classList.add('taken'))
+            random = Math.floor(Math.random() * theTetriminoes.length)
+            current = theTetriminoes[random][currentRotation]
+            currentPosition = 4
+            draw()
+        }
+    }
+
+    // move Left tetrimino unless next to left wall
+    function moveLeft() {
+        undraw()
+        const isAtLeftEdge = current.some(index => (currentPosition + index) % width === 0)
+        if (!isAtLeftEdge) currentPosition -= 1
+
+        // if any tile is at a taken spot
+        if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+            // move back
+            currentPosition += 1
+        }
+
+        draw()
+    }
 })
